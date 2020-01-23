@@ -1,0 +1,58 @@
+Remember:
+
+1. import :
+            When we're importing file in other file we don't name working file
+            with importing package brcause python start searching itself then 
+            go further to check.
+            e.g; pandas.py
+                import pandas 
+
+            This through error there is no module name as 'pandas'
+            as it search from itself
+
+2. if __name__ == "__main__":
+            Working file isn't a main file when we import file that contain functions
+            that file is a main file. Although it is beneficial for us when we 
+            import main file, that main file won't execute instead of file that imported 
+            functions from main file that will execute only.
+            
+            Note: To execute main file directly, we run main file.   
+
+3. 'is' Vs. '==':
+            is      -> Reference  eqaulity     -> 2 Objects refer to the same Object.
+            ==   -> Value equality              ->2 Objects have same value
+            e.g;
+                a = [1,3, 2]    
+                b = [1,3, 2]
+
+                > a==b -> T (same values)
+                > a is b -> F (because of diff. Reference)
+
+4. Recursive Vs. Iterative:
+            Iterative -> Program execute & can't go back finite times.
+            e.g;
+                def fun():
+                    return None
+
+            Recursive -> Program execute & can go back infinite times.
+            e.g;
+                def fun():
+                    return fun()
+
+5. Iterable Vs. Iterator
+            Iterable - __iter__() or __getitem__() -> can be loop
+            Iterator - __next__() -> it make itrable to make item ready for 
+                                                for loop
+
+                def gen(n):
+                    for i in range(n):
+                        yield i         # generate i
+
+                g = gen(3)
+                print(g.__next__())  # 0
+
+6. print, return & yield
+            print      -> Print on console
+            reutn     -> Return task after compleion
+            yield      -> Generate item at run which can't be retrive
+             
