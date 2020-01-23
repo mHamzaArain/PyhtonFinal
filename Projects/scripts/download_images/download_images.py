@@ -1,0 +1,47 @@
+#! python3
+
+"""Download jpg/png images from Imgur that match a user's search term(s)."""
+
+import os
+import requests
+import bs4
+
+def image_downloader(extension):
+    """Search for and download all images of the argument type from Imgur."""
+    url = 'http://imgur.com/search?q=' + search + ' ext:' + extension
+    os.makedirs(r'c:\users\Family/Downloads/imgur', exist_ok=True)
+
+    res = requests.get(url)
+    res.raise_for_status()
+
+    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    image_elem = soup.select('.post > .image-list-link img')    # list contain HTML image link
+    # print(image_elem)   # list contain HTML image link
+    for i, image in enumerate(image_elem):
+        # Convert image URL from thumbnail size to fullsize version
+        image_url_s = 'https:' + image_elem[i].get('src')       # https://i.imgur.com/OLlb8JBb.jpg
+        # print(image_url_s)
+        image_url = f'{image_url_s[: -5]}.{extension}'       # https://i.imgur.com/OLlb8JB + '.' + extesion=jpg
+        # print(image_url_s[:-5])     # https://i.imgur.com/OLlb8JB
+        print(f'Downloading image: {image_url}')
+        res = requests.get(image_url)
+        res.raise_for_status()
+        image_file = open(os.path.join(r'c:\users\Family/Downloads/imgur',
+                                        os.path.basename(image_url)), 'wb')
+        for chunk in res.iter_content(1000000):
+            image_file.write(chunk)
+        image_file.close()
+
+    return len(image_elem)
+
+print("This script downloads images from http://imgur.com/ "\
+        'to Downloads\imgur')
+
+search = input('Enter desired search term(s): ')
+downloaded = image_downloader('jpg') + image_downloader('png')
+
+if downloaded == 0:
+    print('No images found.')
+
+else:
+    print('All ' + str(downloaded) + ' files successfully downloaded.')
